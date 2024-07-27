@@ -2,6 +2,8 @@
 
 export const ContentPage = () => {
   return (
-    <div>Iniciado sesion con exito</div>
+    <>
+      <h1>Home Page</h1>
+    </>
   )
 }

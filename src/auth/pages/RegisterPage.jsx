@@ -21,17 +21,14 @@ import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { startCreatingUser } from "../../store/auth/thunks";
 import { useSelector } from "react-redux";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import Loading from "../components/Loading";
-
-
-
+import { IconButton, InputAdornment } from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 const validEmail = /^\w+([.-_+]?\w+)*@\w+([.-]?\w+)*(\.\w{2,10})+$/;
 const regexp_password =
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,15}/;
-
-
 
 function Copyright(props) {
   return (
@@ -48,14 +45,20 @@ function Copyright(props) {
   );
 }
 
-
-
 const registerCodes = {
   empleado: "EMPSANDBOX24",
   instructor: "INSSANDBOX24",
 };
 
 export function RegisterPage() {
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+
   const dispatch = useDispatch();
   const { status, errorMessage } = useSelector((state) => state.auth);
   const {
@@ -76,7 +79,7 @@ export function RegisterPage() {
   });
 
   return (
-    <Container component="main" maxWidth="xs">
+    <Container component="main" maxWidth="xs" className="animate__animated animate__fadeIn animate__faster">
       <CssBaseline />
       <Box
         sx={{
@@ -90,7 +93,7 @@ export function RegisterPage() {
         <Typography component="h1" variant="h5">
           Crear Cuenta
         </Typography>
-        <Box component="form" noValidate onSubmit={onSubmit} sx={{ mt: 3 }}>
+        <Box component="form" noValidate onSubmit={onSubmit} sx={{ mt: 3 }} className="animate__animated animate__fadeIn animate__faster">
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
@@ -125,8 +128,8 @@ export function RegisterPage() {
                     message: "Los apellidos son requeridos",
                   },
                   minLength: {
-                    value: 12,
-                    message: "El nombre debe tener al menos 12 caracteres",
+                    value: 4,
+                    message: "El apellido debe tener al menos 4 caracteres",
                   },
                 })}
               />
@@ -148,8 +151,7 @@ export function RegisterPage() {
                   pattern: {
                     value: validEmail,
                     message: "Formato de correo no válido",
-                  }
-                  
+                  },
                 })}
               />
             </Grid>
@@ -159,7 +161,7 @@ export function RegisterPage() {
                 helperText={errors.password?.message}
                 fullWidth
                 label="Contraseña"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 {...register("password", {
                   required: {
                     value: true,
@@ -180,6 +182,20 @@ export function RegisterPage() {
                 })}
                 placeholder="Escribe tu contraseña"
                 autoComplete="new-password"
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                        edge="end"
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
               />
             </Grid>
             <Grid item xs={12}>
@@ -188,7 +204,7 @@ export function RegisterPage() {
                 helperText={errors.confirmPassword?.message}
                 fullWidth
                 label="Cofirmar contraseña"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 {...register("confirmPassword", {
                   required: {
                     value: true,
@@ -204,6 +220,20 @@ export function RegisterPage() {
                 })}
                 placeholder="Confirma tu contraseña"
                 autoComplete="new-password"
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                        edge="end"
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
               />
             </Grid>
             <Grid item xs={12}>
@@ -276,13 +306,11 @@ export function RegisterPage() {
                 <Loading />
               </Grid>
             )}
-            {
-              errorMessage && (
-                <Grid item xs={12}>
-                   <Alert severity="error">{errorMessage}</Alert>
-                </Grid>
-              )
-            }
+            {errorMessage && (
+              <Grid item xs={12}>
+                <Alert severity="error">{errorMessage}</Alert>
+              </Grid>
+            )}
           </Grid>
           <Button
             type="submit"
