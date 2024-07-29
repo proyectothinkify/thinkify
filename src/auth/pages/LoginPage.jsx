@@ -205,7 +205,12 @@ export function LoginPage() {
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href="#" variant="body2">
+                <Link
+                  href="#"
+                  variant="body2"
+                  component={NavLink}
+                  to="/auth/restorepasswordverification"
+                >
                   ¿Olvidaste tu contraseña?
                 </Link>
               </Grid>

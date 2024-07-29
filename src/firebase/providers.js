@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, reauthenticateWithCredential, signInWithEmailAndPassword, updateEmail, updateProfile} from "firebase/auth";
+import { createUserWithEmailAndPassword, reauthenticateWithCredential, sendPasswordResetEmail, signInWithEmailAndPassword, updateEmail, updateProfile} from "firebase/auth";
 import {FirebaseAuth} from './config'
 
 
@@ -112,4 +112,21 @@ export const updatingEmail = async (email) => {
             errorMessage: error.message
         }
     }
+}
+
+export const passwordChangeByEmail = async ({email}) => {
+
+    try {
+        const resp = await sendPasswordResetEmail(FirebaseAuth, email)
+        return {
+            ok: true,
+            resp
+        }
+    } catch (error) {
+        return {
+            ok: false,
+            errorMessage: error.message
+        }
+    }
+    
 }

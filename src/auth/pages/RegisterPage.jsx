@@ -319,7 +319,7 @@ export function RegisterPage() {
             disabled={isCheckingAuthentication}
             sx={{ mt: 3, mb: 2 }}
           >
-            Registrase
+            Registrarse
           </Button>
           <Grid container justifyContent="flex-end">
             <Grid item>

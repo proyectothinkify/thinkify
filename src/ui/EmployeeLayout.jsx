@@ -41,7 +41,7 @@ import { doc, getDoc } from "firebase/firestore/lite";
 import { notificationPush } from "../store/userContent/teacherContentSlice";
 import { firebaseApiFunctions } from "../hooks/firebaseApiFunctions";
 import NotificationList from "./NotificationList";
-
+import CreateNewFolderIcon from '@mui/icons-material/CreateNewFolder';
 
 
 const openedMixin = (theme) => ({
@@ -150,13 +150,15 @@ export function EmployeeLayout({ children }) {
     "Mi perfil",
     "Notificaciones",
     "Mis cursos",
-    "Mis Objetivos",
+    "Mis objetivos",
+    "Crear curso"
   ];
   const icons = [
     <PersonIcon />,
     <NotificationsIcon />,
     <MenuBookIcon />,
     <FlagIcon />,
+    <CreateNewFolderIcon/>
   ];
 
   const theme = useTheme();
@@ -270,32 +272,13 @@ export function EmployeeLayout({ children }) {
           ))}
         </List>
         <Divider />
-        <List>
-          {["Crear curso", "Mis alumnos", "Spam"].map((text, index) => (
-            <ListItem key={text} disablePadding sx={{ display: "block" }}>
-              <ListItemButton
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? "initial" : "center",
-                  px: 2.5,
-                }}
-              >
-                <ListItemIcon
-                  sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : "auto",
-                    justifyContent: "center",
-                  }}
-                >
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
+        
       </Drawer>
-      <NotificationList isNotificationClicked={isNotificationClicked} />
+      <NotificationList
+        isNotificationClicked={isNotificationClicked}
+        setIsNotificationClicked={setIsNotificationClicked}
+      
+      />
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
         <Breadcrumbs aria-label="breadcrumb">

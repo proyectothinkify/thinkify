@@ -1,5 +1,5 @@
 import { updateEmail } from "firebase/auth"
-import { loginUser, logOutFirebase, registerUser, updateDisplayName, updatePhotoURL, updatingEmail} from "../../firebase/providers"
+import { loginUser, logOutFirebase, passwordChangeByEmail, registerUser, updateDisplayName, updatePhotoURL, updatingEmail} from "../../firebase/providers"
 import { checkingCredentials, logout, login, editPhoto, editDisplayName, editEmail } from "./authSlice"
 import { fileUpload } from "../../helpers/fileupload"
 import { FirebaseAuth } from "../../firebase/config"
@@ -69,5 +69,14 @@ export const startEditingEmail = (email) => {
         if(!ok) return editEmail(errorMessage)
         dispatch(editEmail(email))
 
+    }
+}
+
+export const startSendingPasswordForEmail = (email) => {
+    //TODO: Obtener todos los emails de los usuarios para compararlos con el email enviado
+    return async (dispatch) => {
+        const { ok, errorMessage, resp } = passwordChangeByEmail({email})
+        if (!ok) return dispatch(logout(errorMessage))
+        console.log(errorMessage, resp)
     }
 }
